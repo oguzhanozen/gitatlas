@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useMemo, useSyncExternalStore } from "react";
 import { chapters, lessons } from "@/content/lessons";
 import { loadProgress } from "@/persistence/progress";
+import { lessonHref } from "@/domain/lessons/lesson-url";
 
 const subscribe = (listener: () => void) => {
     window.addEventListener("storage", listener);
@@ -44,7 +45,7 @@ export default function LearnPage() {
                 <div className="grid gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">{chapter.lessons.map(lesson => {
                     const done = completed.includes(lesson.id);
                     const card = <><div><span className={`text-xs font-black uppercase tracking-wider ${done ? "text-[var(--success)]" : "text-[var(--accent)]"}`}>{done ? "Tamamlandı" : `Seviye ${lesson.level}`}</span></div><h3 className="mt-5 text-lg font-black">{lesson.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--text-2)]">{lesson.goalDescription}</p>{lesson.reward && <p className="mt-4 text-xs font-bold text-[var(--success)]">Rozet · {lesson.reward}</p>}</>;
-                    return unlocked ? <Link key={lesson.id} href={`/learn/${encodeURIComponent(lesson.id)}`} className={`group rounded-2xl border p-5 transition-transform hover:-translate-y-0.5 ${done ? "border-[var(--success)] bg-[var(--surface-raised)]" : "border-[var(--border)] bg-[var(--bg)] hover:border-[var(--accent)]"}`}>{card}</Link> : <div key={lesson.id} aria-disabled="true" className="cursor-not-allowed rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-5 opacity-45">{card}</div>;
+                    return unlocked ? <Link key={lesson.id} href={lessonHref(lesson.id)} className={`group rounded-2xl border p-5 transition-transform hover:-translate-y-0.5 ${done ? "border-[var(--success)] bg-[var(--surface-raised)]" : "border-[var(--border)] bg-[var(--bg)] hover:border-[var(--accent)]"}`}>{card}</Link> : <div key={lesson.id} aria-disabled="true" className="cursor-not-allowed rounded-2xl border border-[var(--border)] bg-[var(--bg)] p-5 opacity-45">{card}</div>;
                 })}</div>
                 {chapterDone && <div className="border-t border-[var(--success)] bg-[var(--surface-raised)] px-6 py-4 text-sm font-black text-[var(--success)]">Bölüm tamamlandı · {chapter.badge} rozeti kazanıldı</div>}
             </section>;

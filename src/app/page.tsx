@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { lessons } from "@/content/lessons";
+import { lessonHref } from "@/domain/lessons/lesson-url";
 
 export default function Home() {
-  const firstLessonHref = lessons[0] ? `/learn/${encodeURIComponent(lessons[0].id)}` : "/learn";
+  const firstLessonHref = lessons[0] ? lessonHref(lessons[0].id) : "/learn";
   return <main className="relative min-h-screen overflow-hidden px-5 py-6 md:px-12 md:py-8">
     <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-52 h-[34rem] w-[34rem] rounded-full bg-[var(--accent-soft)] blur-3xl" />
     <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between"><Link href="/" className="text-xl font-black tracking-tight">Git<span className="text-[var(--accent)]">Atlas</span></Link><span className="rounded-full border border-[var(--border)] bg-[var(--surface-raised)] px-3 py-1 text-xs font-bold sm:text-sm">Türkçe · 29 seviye</span></nav>

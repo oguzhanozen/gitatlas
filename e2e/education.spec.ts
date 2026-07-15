@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { lessonHref } from "../src/domain/lessons/lesson-url";
 
-const lessonUrl = (id: string) => `/learn/${encodeURIComponent(id)}`;
 async function openLesson(page: import("@playwright/test").Page, id: string, level: string) {
-  await page.goto(lessonUrl(id));
+  await page.goto(lessonHref(id));
   await page.getByRole("button", { name: new RegExp(`Seviye ${level} görevine başla`) }).click();
 }
 async function command(page: import("@playwright/test").Page, text: string) {

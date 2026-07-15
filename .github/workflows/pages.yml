@@ -56,6 +56,8 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: node scripts/verify-static-export.mjs
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:pages
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

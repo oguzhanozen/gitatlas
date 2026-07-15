@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-const route = (id: string) => `/learn/${encodeURIComponent(id)}`;
+import { lessonHref } from "../src/domain/lessons/lesson-url";
 
 async function dismissBriefing(page: import("@playwright/test").Page) {
     const btn = page.getByRole("button", { name: /Öğrendim/i });
@@ -16,13 +16,13 @@ async function command(page: import("@playwright/test").Page, value: string) {
 }
 
 test("kullanıcı Workspace dersini tamamlar", async ({ page }) => {
-    await page.goto(route("basics/01-workspace"));
+    await page.goto(lessonHref("basics/01-workspace"));
     await command(page, "git status");
     await expect(page.getByRole("heading", { name: "Görev tamamlandı." })).toBeVisible()
 });
 
 test("kullanıcı Staging dersini tamamlar", async ({ page }) => {
-    await page.goto(route("basics/02-staging"));
+    await page.goto(lessonHref("basics/02-staging"));
     await command(page, "git add merhaba.txt");
     await expect(page.getByText("Staged new")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Görev tamamlandı." })).toBeVisible()
@@ -32,7 +32,7 @@ test("kullanıcı Commit dersini tamamlar ve ilerleme yenilemede korunur", async
     const runtimeErrors: string[] = [];
     page.on("console", message => { if (message.type() === "error") runtimeErrors.push(message.text()); });
     page.on("pageerror", error => runtimeErrors.push(error.message));
-    await page.goto(route("basics/03-commit"));
+    await page.goto(lessonHref("basics/03-commit"));
     await command(page, 'git commit -m "ilk commit"');
     await expect(page.getByRole("img", { name: /Commit grafiği\. 1 commit\./ })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Görev tamamlandı." })).toBeVisible();
@@ -45,7 +45,7 @@ test("kullanıcı Commit dersini tamamlar ve ilerleme yenilemede korunur", async
 });
 
 test("kullanıcı Diff dersini tamamlar", async ({ page }) => {
-    await page.goto(route("basics/05-diff"));
+    await page.goto(lessonHref("basics/05-diff"));
     await command(page, "git diff");
     await expect(page.getByText("+ Bir satir daha eklendi!")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Görev tamamlandı." })).toBeVisible()
@@ -53,7 +53,7 @@ test("kullanıcı Diff dersini tamamlar", async ({ page }) => {
 
 test("mobil viewport'ta terminal ve repository panelleri kullanılabilir", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(route("basics/02-staging"));
+    await page.goto(lessonHref("basics/02-staging"));
     await dismissBriefing(page);
     await expect(page.getByLabel("Repository state")).toBeVisible();
     await expect(page.getByLabel("Git terminali")).toBeVisible();
