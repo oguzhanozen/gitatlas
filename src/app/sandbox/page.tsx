@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { Sandbox } from "@/components/sandbox/Sandbox";
+export default function SandboxPage(){return <main className="min-h-screen p-3 md:p-5"><header className="mx-auto mb-5 max-w-7xl"><Link href="/learn" className="text-sm font-bold text-[var(--text-2)]">← Öğrenme haritası</Link><p className="mt-5 text-xs font-black uppercase tracking-[.2em] text-[var(--success)]">Yalnız bu tarayıcıda · ilerlemeden bağımsız</p><h1 className="mt-2 text-4xl font-black">Git sandbox</h1><p className="mt-2 max-w-3xl leading-7 text-[var(--text-2)]">Preset seç, komutları özgürce dene, working tree/index/HEAD ve grafiği birlikte izle. Bu sayfa ders tamamlama veya öğrenme sonucu kaydetmez.</p></header><div className="mx-auto max-w-7xl"><Sandbox/></div></main>}
